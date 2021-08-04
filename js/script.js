@@ -20,6 +20,20 @@ const inputCVV = document.getElementById("cvv");
 const inputPaypal = document.getElementById("paypal");
 const inputBitcoin = document.getElementById("bitcoin");
 
+//create function for displaying error message after clicking the submission button
+function notValidInput (input) {
+    input.nextElementSibling.style.display = "inherit";
+    input.parentElement.classList.add("not-valid");
+    input.parentElement.classList.remove("valid");
+    // toolTip.parentElement.lastElementChild.style.display = "inherit";
+}
+
+//create function for not displaying error message if the input meet validation after submission
+function validInput(input) {
+    input.nextElementSibling.style.display = "none";
+    input.parentElement.classList.add("valid");
+    input.parentElement.classList.remove("not-valid");
+}
 /**The "Name" field: the first text field is focused when the page loads
  **/
 inputName.focus();
@@ -83,13 +97,9 @@ inputDesign.addEventListener('change', e => {
      //change the p element with id of "activities-cost" with updated cost
      inputCost.innerHTML = `Total: $${totalCost}`;
      if(totalCost !== 0){
-         inputCost.nextElementSibling.style.display = "none";
-         inputCost.parentElement.classList.add("valid");
-         inputCost.parentElement.classList.remove("not-valid");
+         validInput(inputCost);
      } else {
-         inputCost.nextElementSibling.style.display = "inherit"
-         inputCost.parentElement.classList.add("not-valid");
-         inputCost.parentElement.classList.remove("valid");
+         notValidInput(inputCost);
      }
  });//end of addEventListener
 
@@ -190,17 +200,11 @@ function isValidCVV(){
 function createListener (validation) {
     return e => {
         const valid = validation() && e.target.value!== "";
-        const toolTip = e.target.nextElementSibling;
+        const targetInput = e.target;
         if (!valid) {
-            toolTip.style.display = "inherit";
-            toolTip.parentElement.classList.add("not-valid");
-            toolTip.parentElement.classList.remove("valid");
-            // toolTip.parentElement.lastElementChild.style.display = "inherit";
+            notValidInput(targetInput);
         } else {
-            toolTip.style.display = "none";
-            toolTip.parentElement.classList.add("valid");
-            toolTip.parentElement.classList.remove("not-valid");
-            // toolTip.parentElement.lastElementChild.style.display = "none";
+            validInput(targetInput);
         }
     }
 };
@@ -211,41 +215,19 @@ inputZip.addEventListener('input', createListener(isValidZip));
 inputCVV.addEventListener('input', createListener(isValidCVV));
 
 inputEmail.addEventListener('input', e => {
-    const toolTip = e.target.nextElementSibling;
+    const targetInput = e.target;
     if (e.target.value === "") {
-        toolTip.innerHTML = "Email address cannot be empty";
-        toolTip.style.display = "inherit";
-        toolTip.parentElement.classList.add("not-valid");
-        toolTip.parentElement.classList.remove("valid");
+        e.target.nextElementSibling.innerHTML = "Email address cannot be empty";
+        notValidInput(targetInput);
     } else if (!isValidEmail()) {
-        toolTip.innerHTML = "Email address must be formatted correctly";
-        toolTip.style.display = "inherit";
-        toolTip.parentElement.classList.add("not-valid");
-        toolTip.parentElement.classList.remove("valid");
+        e.target.nextElementSibling.innerHTML = "Email address must be formatted correctly";
+        notValidInput(targetInput);
     } else {
-        toolTip.style.display = "none";
-        toolTip.parentElement.classList.add("valid");
-        toolTip.parentElement.classList.remove("not-valid");
+        validInput(targetInput);
     }
 })
+
 //Submit Listener on the form element
-
-
-//create function for displaying error message after clicking the submission button
-function notValidInput (input) {
-    input.nextElementSibling.style.display = "inherit";
-    input.parentElement.classList.add("not-valid");
-    input.parentElement.classList.remove("valid");
-    // toolTip.parentElement.lastElementChild.style.display = "inherit";
-}
-
-//create function for not displaying error message if the input meet validation after submission
-function validInput(input) {
-    input.nextElementSibling.style.display = "none";
-    input.parentElement.classList.add("valid");
-    input.parentElement.classList.remove("not-valid");
-}
-
 form.addEventListener('submit', e => {
     if (!isValidName()) {
         notValidInput(inputName);
