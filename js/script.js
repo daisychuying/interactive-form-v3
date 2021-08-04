@@ -230,76 +230,66 @@ inputEmail.addEventListener('input', e => {
 })
 //Submit Listener on the form element
 
+
+//create function for displaying error message after clicking the submission button
+function notValidInput (input) {
+    input.nextElementSibling.style.display = "inherit";
+    input.parentElement.classList.add("not-valid");
+    input.parentElement.classList.remove("valid");
+    // toolTip.parentElement.lastElementChild.style.display = "inherit";
+}
+
+//create function for not displaying error message if the input meet validation after submission
+function validInput(input) {
+    input.nextElementSibling.style.display = "none";
+    input.parentElement.classList.add("valid");
+    input.parentElement.classList.remove("not-valid");
+}
+
 form.addEventListener('submit', e => {
     if (!isValidName()) {
-        inputName.nextElementSibling.style.display = "inherit";
-        inputName.parentElement.classList.add("not-valid");
-        inputName.parentElement.classList.remove("valid");
+        notValidInput(inputName);
         e.preventDefault();
     } else {
-        inputName.nextElementSibling.style.display = "none";
-        inputName.parentElement.classList.add("valid");
-        inputName.parentElement.classList.remove("not-valid");
+        validInput(inputName);
     }
     if (inputEmail.value === ""){
         inputEmail.nextElementSibling.innerHTML = "Email address cannot be empty";
-        inputEmail.nextElementSibling.style.display = "inherit";
-        inputEmail.parentElement.classList.add("not-valid");
-        inputEmail.parentElement.classList.remove("valid");
+        notValidInput(inputEmail);
         e.preventDefault();
     }
     else if (!isValidEmail()) {
         inputEmail.nextElementSibling.innerHTML = "Email address must be formatted correctly";
-        inputEmail.nextElementSibling.style.display = "inherit";
-        inputEmail.parentElement.classList.add("not-valid");
-        inputEmail.parentElement.classList.remove("valid");
+        notValidInput(inputEmail);
         e.preventDefault();
     } else {
-        inputEmail.nextElementSibling.style.display = "none";
-        inputEmail.parentElement.classList.add("valid");
-        inputEmail.parentElement.classList.remove("not-valid");
+        validInput(inputEmail);
     }
     if (creditCardOpt.selected){
         if (!isValidCardNum()) {
-            inputCCNumber.nextElementSibling.style.display = "inherit";
-            inputCCNumber.parentElement.classList.add("not-valid");
-            inputCCNumber.parentElement.classList.remove("valid");
+            notValidInput(inputCCNumber);
             e.preventDefault();
         } else {
-            inputCCNumber.nextElementSibling.style.display = "none";
-            inputCCNumber.parentElement.classList.add("valid");
-            inputCCNumber.parentElement.classList.remove("not-valid");
+            validInput(inputCCNumber);
         }
         if (!isValidZip()) {
-            inputZip.nextElementSibling.style.display = "inherit";
-            inputZip.parentElement.classList.add("not-valid");
-            inputZip.parentElement.classList.remove("valid");
+            notValidInput(inputZip);
             e.preventDefault();
         } else {
-            inputZip.nextElementSibling.style.display = "none";
-            inputZip.parentElement.classList.add("valid");
-            inputZip.parentElement.classList.remove("not-valid");
+            validInput(inputZip);
         }
         if (!isValidCVV()) {
-            inputCVV.nextElementSibling.style.display = "inherit";
-            inputCVV.parentElement.classList.add("not-valid");
-            inputCVV.parentElement.classList.remove("valid");
+            notValidInput(inputCVV);
             e.preventDefault();
         } else {
-            inputCVV.nextElementSibling.style.display = "none";
-            inputCVV.parentElement.classList.add("valid");
-            inputCVV.parentElement.classList.remove("not-valid");
+            validInput(inputCVV);
         }
     }
     if (!isValidAct()) {
-        inputCost.nextElementSibling.style.display = "inherit";
-        inputCost.parentElement.classList.add("not-valid");
-        inputCost.parentElement.classList.remove("valid");
+        notValidInput(inputCost);
         e.preventDefault();
     } else {
-        inputCost.nextElementSibling.style.display = "none";
-        inputCost.parentElement.classList.add("valid");
-        inputCost.parentElement.classList.remove("not-valid");
+        validInput(inputCost);
     }
 
     console.log('Submit handler is functional!');
